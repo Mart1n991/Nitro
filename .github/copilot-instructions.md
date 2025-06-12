@@ -7,9 +7,8 @@ Technology used:
 - React Native
 - TypeScript
 - Zustand - for global state management
-- React Query - for data fetching and caching
 - Persist - saving data to AsyncStorage ( for offline mode)
-- Tanstack DevTools - for debugging and development
+- Tanstack
 - Clerk - for managing user authentication and authorization
 - React Navigation
 - Nativewind - for styling

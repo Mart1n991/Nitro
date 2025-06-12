@@ -22,6 +22,9 @@ jobs:
       - name: Install Expo CLI
         run: yarn global add expo-cli
 
+      - name: Install EAS CLI
+        run: yarn global add eas-cli
+
       - name: Run EAS Build Preview
         run: eas build --platform=android --non-interactive --profile preview
         env:

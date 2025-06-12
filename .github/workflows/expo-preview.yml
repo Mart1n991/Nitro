@@ -19,6 +19,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Debug token (safe)
+        run: echo "Token prefix: ${EXPO_TOKEN:0:5}********"
+
       - name: Install Expo CLI
         run: yarn global add expo-cli
 

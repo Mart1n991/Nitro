@@ -7,6 +7,12 @@
 - READ
 - WRITE
 
+### CarProjectStatus enum
+
+- TODO
+- IN_PROGRESS
+- DONE
+
 ### Role enum
 
 - ADMIN (my account as administrator)
@@ -86,6 +92,37 @@
 - sharedAccesses SharedAccess[]
 - reminders Reminder[]
 
+### CarProject model
+
+- id String @id @default(cuid())
+- car Car @relation(fields: [carId], references: [id])
+- carId String
+
+- name String
+- description String?
+- status ProjectStatus @default(TODO)
+
+- totalCost Float @default(0)
+- links String[] // array of URLs
+
+- items ProjectItem[]
+
+- createdAt DateTime @default(now())
+- updatedAt DateTime @updatedAt
+
+### ProjectItem
+
+- id String @id @default(cuid())
+- project Project @relation(fields: [projectId], references: [id])
+- projectId String
+
+- name String // napr. „Spojka SACHS“
+- price Float
+- quantity Int @default(1)
+- link String? // odkaz na diel
+
+createdAt DateTime @default(now())
+
 ### Car model
 
 - id String @id @default(uuid()) @db.Uuid
@@ -114,6 +151,7 @@
 - serviceRecords ServiceRecord[]
 - sharedAccesses SharedAccess[] // kto má zdieľaný prístup
 - reminders Reminder[]
+- projects Project[]
 
 - @@map("cars")
 

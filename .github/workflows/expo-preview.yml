@@ -19,17 +19,14 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-
       - name: Install Expo CLI
         run: yarn global add expo-cli
 
-        
       - name: Install EAS CLI
         run: yarn global add eas-cli
 
       - name: Run EAS Build Preview
         run: eas build --platform=android --non-interactive --profile preview
-      - name: Debug token (safe)
-        run: echo "Token prefix: ${EXPO_TOKEN:0:5}********"
+
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}

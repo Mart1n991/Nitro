@@ -27,5 +27,7 @@ jobs:
 
       - name: Run EAS Build Preview
         run: eas build --platform=android --non-interactive --profile preview
+      - name: Debug Expo token
+        run: echo "EXPO_TOKEN is ${EXPO_TOKEN:0:10}********"
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}

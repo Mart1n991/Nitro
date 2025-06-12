@@ -1,5 +1,5 @@
-import { SignedIn, SignedOut } from "@clerk/clerk-expo";
-import { Redirect } from "expo-router";
+import { SignedIn, SignedOut } from '@clerk/clerk-expo'
+import { Redirect } from 'expo-router'
 
 export default function Index() {
   return (
@@ -12,5 +12,5 @@ export default function Index() {
         <Redirect href="/sign-up" />
       </SignedOut>
     </>
-  );
+  )
 }

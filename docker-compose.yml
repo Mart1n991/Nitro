@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    container_name: nitro_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: nitro
+      POSTGRES_PASSWORD: nitro123
+      POSTGRES_DB: nitrodb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {}

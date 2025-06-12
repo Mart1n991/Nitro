@@ -11,6 +11,9 @@ export default function Page() {
     <View>
       <SignedIn>
         <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
+        <View className="bg-red-500 size-10">
+          <Text>Dashboard</Text>
+        </View>
         <SignOutButton />
       </SignedIn>
       <SignedOut>

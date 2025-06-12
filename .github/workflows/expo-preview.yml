@@ -26,7 +26,6 @@ jobs:
         run: yarn global add eas-cli
 
       - name: Run EAS Build Preview
-        run: eas build --platform=android --non-interactive --profile preview
-
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: eas build --platform=android --non-interactive --profile preview

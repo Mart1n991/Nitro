@@ -1,0 +1,57 @@
+{
+  "name": "nitro",
+  "version": "1.0.0",
+  "main": "expo-router/entry",
+  "expo": {
+    "plugins": [
+      "expo-router"
+    ]
+  },
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "prepare": "husky",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clerk/clerk-expo": "^2.13.0",
+    "expo": "~53.0.11",
+    "expo-auth-session": "~6.2.0",
+    "expo-constants": "~17.1.6",
+    "expo-linking": "~7.1.5",
+    "expo-router": "~5.1.0",
+    "expo-secure-store": "~14.2.3",
+    "expo-status-bar": "~2.2.3",
+    "expo-web-browser": "~14.1.6",
+    "nativewind": "^4.1.23",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-hook-form": "^7.57.0",
+    "react-native": "0.79.3",
+    "react-native-reanimated": "~3.17.4",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-screens": "~4.11.1",
+    "react-native-web": "^0.20.0",
+    "zod": "^3.25.63",
+    "zustand": "^5.0.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@types/react": "~19.0.10",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.0",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "prisma": "^6.9.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.8.3"
+  },
+  "private": true,
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
+}

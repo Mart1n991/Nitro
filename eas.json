@@ -1,13 +1,42 @@
 {
   "cli": {
-    "version": ">= 3.0.0"
+    "version": "16.9.0"
   },
   "build": {
-    "dev": {
+    "local": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "CLERK_PUBLISHABLE_KEY": "pk_test_cG9saXRlLWd1bGwtNS5jbGVyay5hY2NvdW50cy5kZXYk",
+        "DATABASE_URL": "postgres://user:nitro@localhost:5432/nitrodb"
+      }
+    },
+    "development": {
       "developmentClient": false,
       "distribution": "internal",
       "android": {
         "buildType": "apk"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {
+      "distribution": "store",
+      "android": {
+        "buildType": "app-bundle"
+      }
+    },
+
+    "ios-local": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "CLERK_PUBLISHABLE_KEY": "tvoja_clerk_hodnota",
+        "DATABASE_URL": "tvoja_db_hodnota"
       }
     }
   }

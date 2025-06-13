@@ -14,7 +14,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mart1n991.nitro",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.mart1n991.nitro",
@@ -28,8 +32,14 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": ["expo-router", "expo-web-browser", "expo-secure-store"],
+    "plugins": [
+      "expo-router",
+      "expo-web-browser",
+      "expo-secure-store"
+    ],
     "extra": {
+      "CLERK_PUBLISHABLE_KEY": "__CLERK_PUBLISHABLE_KEY__",
+      "DATABASE_URL": "__DATABASE_URL__",
       "router": {},
       "eas": {
         "projectId": "486b13e8-855c-4437-b1cc-1327bbeca8e9"

@@ -6,10 +6,233 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+// Enums
+
+enum AccessLevel {
+  READ
+  WRITE
+}
+
+enum CarProjectStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum Role {
+  ADMIN
+  OWNER
+  VIEWER
+  SERVICE
+}
+
+enum BodyType {
+  SEDAN
+  COMBI
+  LIFTBACK
+  HATCHBACK
+  SUV
+  COUPE
+  CABRIOLET
+  SMALLCAR
+  PICKUP
+}
+
+enum FuelType {
+  PETROL
+  DIESEL
+  HYBRID
+  ELECTRIC
+  LPG
+  CNG
+  HYDROGEN
+}
+
+enum ReminderType {
+  INSURANCE
+  CASCO
+  HIGHWAY
+  STK
+  EK
+  OIL_CHANGE
+}
+
+enum AttachmentType {
+  IMAGE
+  DOCUMENT
+}
+
+// Models
+
+model Reminder {
+  id               String       @id @default(cuid())
+  userId           String
+  carId            String       
+  date             DateTime?
+  mileage          Int?
+  repeatYearly     Boolean      @default(false)
+  notifyBeforeDays Int          @default(7)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  type             ReminderType
+
+  user User @relation(fields: [userId], references: [id])
+  car  Car  @relation(fields: [carId], references: [id])
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  notifyBeforeInsuranceDays      Int     @default(7)
+  notifyBeforeCascoDays          Int     @default(7)
+  notifyBeforeHighwayStickerDays Int     @default(7)
+  notifyBeforeStkDays            Int     @default(30)
+  notifyBeforeEkDays             Int     @default(30)
+  pushToken                      String?
+
+  role Role @default(OWNER)
+
+  cars           Car[]          @relation("OwnedCars")
+  sharedAccesses SharedAccess[]
+  reminders      Reminder[]
+}
+
+model Car {
+  id      String @id @default(cuid())
+  ownerId String @map("user_id")
+
+  brand            String    @db.VarChar(128)
+  model            String    @db.VarChar(128)
+  bodyType         BodyType?
+  fuelType         FuelType?
+  engine           Float?
+  yearOfProduction Int?
+  kilometers       Int       @default(0)
+  buyingPrice      Float     @default(0)
+  vinNumber        String?   @db.Char(17)
+  spzNumber        String?   @db.Char(7)
+  fullName         String    @db.VarChar(255)
+  imageUrl         String?
+  createdAt        DateTime  @default(now()) @db.Timestamptz()
+  editedAt         DateTime?
+
+  serviceRecords ServiceRecord[]
+  sharedAccesses SharedAccess[]
+  reminders      Reminder[]
+  projects       Project[]
+  carProjects    CarProject[]
+
+  owner   User   @relation("OwnedCars", fields: [ownerId], references: [id], onDelete: Cascade)
+ 
+  @@map("cars")
+}
+
+model SharedAccess {
+  id          String      @id @default(cuid())
+  carId       String      
+  userId      String
+  createdAt   DateTime    @default(now())
+  accessLevel AccessLevel @default(READ)
+
+  user User @relation(fields: [userId], references: [id])
+  car  Car  @relation(fields: [carId], references: [id])
+
+  @@unique([carId, userId])
+}
+
+model ServiceRecord {
+  id          String   @id @default(cuid())
+  carId       String   
+  serviceType String
+  date        DateTime
+  cost        Float
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  servicePart ServicePart[]
+  attachments ServiceRecordAttachment[]
+
+  car Car @relation(fields: [carId], references: [id])
+
+}
+
+model ServiceRecordAttachment {
+  id              String         @id @default(cuid())
+  serviceRecordId String
+  url             String
+  type            AttachmentType
+  createdAt       DateTime       @default(now())
+
+  serviceRecord ServiceRecord @relation(fields: [serviceRecordId], references: [id])
+}
+
+model Project {
+  id          String           @id @default(cuid())
+  name        String
+  description String?
+  totalCost   Float            @default(0)
+  links       String[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  status      CarProjectStatus @default(TODO)
+
+  items ProjectItem[]
+
+  Car Car[]
+}
+
+model CarProject {
+  id          String           @id @default(cuid())
+  carId       String           
+  name        String
+  description String?
+  totalCost   Float            @default(0)
+  links       String[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  status      CarProjectStatus @default(TODO)
+
+  car   Car           @relation(fields: [carId], references: [id])
+  items ProjectItem[]
+}
+
+model ProjectItem {
+  id          String   @id @default(cuid())
+  projectId   String
+  name        String
+  description String?
+  price       Float
+  quantity    Int      @default(1)
+  link        String?
+  createdAt   DateTime @default(now())
+
+  project CarProject @relation(fields: [projectId], references: [id])
+
+  Project Project[]
+}
+
+model ServicePart {
+  id String @id @default(cuid())
+
+  serviceRecordId String
+  serviceRecord ServiceRecord @relation(fields: [serviceRecordId], references: [id])
+
+  name String // názov dielu – povinný
+  brand String? // značka dielu – napr. Bosch, Mann
+  unitPrice Float? // cena za 1 kus
+  quantity Int? // počet kusov
+  note String? // poznámka
+
+  createdAt DateTime @default(now())
 }

@@ -4,11 +4,11 @@ services:
     restart: always
     container_name: nitro_postgres
     ports:
-      - "5432:5432"
+      - '${DATABASE_PORT}:5432'
     environment:
-      POSTGRES_USER: nitro
-      POSTGRES_PASSWORD: nitro123
-      POSTGRES_DB: nitrodb
+      POSTGRES_USER: ${DATABSE_USER}
+      POSTGRES_PASSWORD: ${DATABSE_PASSWORD}
+      POSTGRES_DB: ${DATABSE_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

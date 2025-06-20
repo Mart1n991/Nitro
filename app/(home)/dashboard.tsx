@@ -4,7 +4,10 @@ import { Link } from 'expo-router'
 import { Text, View } from 'react-native'
 import { SignOutButton } from '../../src/components/SignOutButton'
 
+import { useTranslation } from 'react-i18next'
+
 export default function Page() {
+  const { t } = useTranslation()
   const { user } = useUser()
 
   return (
@@ -14,6 +17,7 @@ export default function Page() {
         <View className="bg-red-500 size-10">
           <Text>Dashboard</Text>
         </View>
+        <Text>{t('appName')}</Text>
         <SignOutButton />
       </SignedIn>
       <SignedOut>
